@@ -18,7 +18,7 @@ import java.time.Duration;
 
 @Data
 @Configuration
-//@ConfigurationProperties(prefix = "redis")
+@ConfigurationProperties(prefix = "redis")
 public class RedisConfig {
 
 //    @Value("${redis.sentinel.group}")

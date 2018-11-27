@@ -8,7 +8,6 @@
         <outputRelativeToContentRoot value="true" />
         <module name="consule-service" />
         <module name="framework-service" />
-        <module name="test-service" />
       </profile>
     </annotationProcessing>
     <bytecodeTargetLevel>

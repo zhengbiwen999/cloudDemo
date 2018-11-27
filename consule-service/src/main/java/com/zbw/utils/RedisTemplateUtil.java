@@ -1,17 +1,14 @@
 package com.zbw.utils;
 
 
-import cn.mwee.utils.json.fastjson.FastJsonUtil;
-import cn.mwee.utils.log4j2.MwLogger;
-import cn.mwee.utils.string.StringUtil;
 import com.google.common.base.Function;
 import com.google.common.collect.Lists;
 import com.google.common.collect.Maps;
 import lombok.Setter;
 import org.apache.commons.collections4.CollectionUtils;
 import org.apache.commons.collections4.map.HashedMap;
-import org.apache.commons.lang3.StringUtils;
-import org.apache.commons.lang3.math.NumberUtils;
+import org.apache.commons.lang.StringUtils;
+import org.apache.commons.lang.math.NumberUtils;
 import org.springframework.dao.DataAccessException;
 import org.springframework.data.redis.connection.RedisConnection;
 import org.springframework.data.redis.core.RedisCallback;
@@ -25,16 +22,17 @@ import org.springframework.retry.support.RetryTemplate;
 import java.util.*;
 import java.util.concurrent.TimeUnit;
 
-/**
- * Created by yangjunming on 4/2/16.
- */
-@Setter
 public class RedisTemplateUtil implements CacheUtil {
 
-    private static final FastJsonUtil jsonUtil = new FastJsonUtil();
+//    private static final FastJsonUtil jsonUtil = new FastJsonUtil();
 //    private final MwLogger logger = new MwLogger(RedisTemplateUtil.class);
+
     private StringRedisTemplate stringRedisTemplate;
+
     private RetryTemplate retryTemplate;
+
+    public RedisTemplateUtil() {
+    }
 
     /**
      * 此方法,当存在大量数据时,慎用
@@ -479,7 +477,7 @@ public class RedisTemplateUtil implements CacheUtil {
                     public String doWithRetry(RetryContext context) throws RuntimeException {
                         stringRedisTemplate.opsForSet().add(key, value);
                         stringRedisTemplate.expire(key, expiredSeconds, TimeUnit.SECONDS);
-                        return StringUtils.EMPTY;
+                        return "";
                     }
                 },
                 new RecoveryCallback<String>() {
@@ -491,7 +489,7 @@ public class RedisTemplateUtil implements CacheUtil {
 //                                context.getLastThrowable());
                         stringRedisTemplate.opsForSet().add(key, value);
                         stringRedisTemplate.expire(key, expiredSeconds, TimeUnit.SECONDS);
-                        return StringUtils.EMPTY;
+                        return "";
                     }
                 }
         );
@@ -503,7 +501,7 @@ public class RedisTemplateUtil implements CacheUtil {
                 new RetryCallback<String, RuntimeException>() {
                     @Override
                     public String doWithRetry(RetryContext context) throws RuntimeException {
-                        return StringUtil.getValue(stringRedisTemplate.opsForHash().get(key, hashKey));
+                        return "";//StringUtil.getValue(stringRedisTemplate.opsForHash().get(key, hashKey));
                     }
                 },
                 new RecoveryCallback<String>() {
@@ -511,7 +509,7 @@ public class RedisTemplateUtil implements CacheUtil {
                     public String recover(RetryContext context) throws Exception {
 //                        logger.error("REDIS ERROR: hGet =>  key:" + key
 //                                + ", retrying at " + context.getRetryCount() + " times", context.getLastThrowable());
-                        return StringUtil.getValue(stringRedisTemplate.opsForHash().get(key, hashKey));
+                        return "";//StringUtil.getValue(stringRedisTemplate.opsForHash().get(key, hashKey));
                     }
                 }
         );
@@ -554,7 +552,7 @@ public class RedisTemplateUtil implements CacheUtil {
                     @Override
                     public String doWithRetry(RetryContext context) throws RuntimeException {
                         stringRedisTemplate.opsForList().leftPush(key, value);
-                        return StringUtils.EMPTY;
+                        return "";
                     }
                 },
                 new RecoveryCallback<String>() {
@@ -564,7 +562,7 @@ public class RedisTemplateUtil implements CacheUtil {
 //                                        + ",value:" + value + ",retrying at " + context.getRetryCount() + " times",
 //                                context.getLastThrowable());
                         stringRedisTemplate.opsForList().leftPush(key, value);
-                        return StringUtils.EMPTY;
+                        return "";
                     }
                 }
         );
@@ -572,9 +570,9 @@ public class RedisTemplateUtil implements CacheUtil {
 
     @Override
     public String lPop(final String key) {
-        if (StringUtils.isEmpty(key)) {
-            return StringUtils.EMPTY;
-        }
+//        if (StringUtils.isEmpty(key)) {
+//            return StringUtils.EMPTY;
+//        }
         return retryTemplate.execute(
                 new RetryCallback<String, RuntimeException>() {
                     @Override
@@ -605,7 +603,7 @@ public class RedisTemplateUtil implements CacheUtil {
                     @Override
                     public String doWithRetry(RetryContext context) throws RuntimeException {
                         stringRedisTemplate.opsForList().rightPush(key, value);
-                        return StringUtils.EMPTY;
+                        return "";
                     }
                 },
                 new RecoveryCallback<String>() {
@@ -615,7 +613,7 @@ public class RedisTemplateUtil implements CacheUtil {
 //                                        + ",value:" + value + ",retrying at " + context.getRetryCount() + " times",
 //                                context.getLastThrowable());
                         stringRedisTemplate.opsForList().rightPush(key, value);
-                        return StringUtils.EMPTY;
+                        return "";
                     }
                 }
         );
@@ -623,9 +621,9 @@ public class RedisTemplateUtil implements CacheUtil {
 
     @Override
     public String rPop(final String key) {
-        if (StringUtils.isEmpty(key)) {
-            return StringUtils.EMPTY;
-        }
+//        if (StringUtils.isEmpty(key)) {
+//            return StringUtils.EMPTY;
+//        }
         return retryTemplate.execute(
                 new RetryCallback<String, RuntimeException>() {
                     @Override
@@ -653,7 +651,7 @@ public class RedisTemplateUtil implements CacheUtil {
                     @Override
                     public String doWithRetry(RetryContext context) throws RuntimeException {
                         stringRedisTemplate.opsForSet().remove(key, obj);
-                        return StringUtils.EMPTY;
+                        return "";
                     }
                 },
                 new RecoveryCallback<String>() {
@@ -663,7 +661,7 @@ public class RedisTemplateUtil implements CacheUtil {
 //                                        + ",retrying at " + context.getRetryCount() + " times",
 //                                context.getLastThrowable());
                         stringRedisTemplate.opsForSet().remove(key, obj);
-                        return StringUtils.EMPTY;
+                        return "";
                     }
                 }
         );
@@ -679,7 +677,7 @@ public class RedisTemplateUtil implements CacheUtil {
                     @Override
                     public String doWithRetry(RetryContext context) throws RuntimeException {
                         stringRedisTemplate.opsForSet().add(key, value);
-                        return StringUtils.EMPTY;
+                        return "";
                     }
                 },
                 new RecoveryCallback<String>() {
@@ -689,7 +687,7 @@ public class RedisTemplateUtil implements CacheUtil {
 //                                        + ",value:" + value + ",retrying at " + context.getRetryCount() + " times",
 //                                context.getLastThrowable());
                         stringRedisTemplate.opsForSet().add(key, value);
-                        return StringUtils.EMPTY;
+                        return "";
                     }
                 }
         );
@@ -703,7 +701,7 @@ public class RedisTemplateUtil implements CacheUtil {
                     public String doWithRetry(RetryContext content) throws RuntimeException {
                         stringRedisTemplate.opsForHash().put(key, hashKey, value);
                         stringRedisTemplate.expire(key, overtime, TimeUnit.SECONDS);
-                        return StringUtils.EMPTY;
+                        return "";
                     }
                 },
                 new RecoveryCallback<String>() {
@@ -714,7 +712,7 @@ public class RedisTemplateUtil implements CacheUtil {
 //                                context.getLastThrowable());
                         stringRedisTemplate.opsForHash().put(key, hashKey, value);
                         stringRedisTemplate.expire(key, overtime, TimeUnit.SECONDS);
-                        return StringUtils.EMPTY;
+                        return "";
                     }
                 }
         );
@@ -727,7 +725,7 @@ public class RedisTemplateUtil implements CacheUtil {
                     @Override
                     public String doWithRetry(RetryContext content) throws RuntimeException {
                         stringRedisTemplate.opsForHash().putAll(key, map);
-                        return StringUtils.EMPTY;
+                        return "";
                     }
                 },
                 new RecoveryCallback<String>() {
@@ -737,7 +735,7 @@ public class RedisTemplateUtil implements CacheUtil {
 //                                        + ",value:" + jsonUtil.toJson(map) + ",retrying at " + context.getRetryCount() + " times",
 //                                context.getLastThrowable());
                         stringRedisTemplate.opsForHash().putAll(key, map);
-                        return StringUtils.EMPTY;
+                        return "";
                     }
                 }
         );
@@ -751,7 +749,7 @@ public class RedisTemplateUtil implements CacheUtil {
                     public String doWithRetry(RetryContext content) throws RuntimeException {
                         stringRedisTemplate.opsForHash().putAll(key, map);
                         stringRedisTemplate.expire(key, overtime, TimeUnit.SECONDS);
-                        return StringUtils.EMPTY;
+                        return "";
                     }
                 },
                 new RecoveryCallback<String>() {
@@ -762,7 +760,8 @@ public class RedisTemplateUtil implements CacheUtil {
 //                                context.getLastThrowable());
                         stringRedisTemplate.opsForHash().putAll(key, map);
                         stringRedisTemplate.expire(key, overtime, TimeUnit.SECONDS);
-                        return StringUtils.EMPTY;
+//                        return StringUtils.EMPTY;
+                        return "";
                     }
                 }
         );

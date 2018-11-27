@@ -1,6 +1,8 @@
 package com.zbw.config;
 
+import com.zbw.utils.RedisTemplateUtil;
 import lombok.Data;
+import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.boot.context.properties.ConfigurationProperties;
 import org.springframework.context.annotation.Bean;
@@ -11,6 +13,8 @@ import org.springframework.data.redis.connection.RedisSentinelConfiguration;
 import org.springframework.data.redis.connection.jedis.JedisConnectionFactory;
 import org.springframework.data.redis.core.StringRedisTemplate;
 import org.springframework.data.redis.serializer.StringRedisSerializer;
+import org.springframework.retry.policy.TimeoutRetryPolicy;
+import org.springframework.retry.support.RetryTemplate;
 import redis.clients.jedis.JedisPoolConfig;
 
 import java.util.HashSet;
@@ -20,90 +24,122 @@ import java.util.Set;
 @Configuration
 @ConfigurationProperties(prefix = "redis")
 public class RedisConfig {
-
-    @Value("${redis.sentinel.group}")
+    @Value("${spring.redis.sentinel.master}")
     protected String sentinelGroupName;
 
-    @Value("${redis.sentinel.nodes}")
+    @Value("${spring.redis.sentinel.nodes}")
     protected String sentinelNodes;
 
-    @Value("${redis.maxTotal}")
-    protected int maxTotal;
+//    @Value("${spring.redis.pool.maxTotal}")
+//    protected int maxTotal;
+//
+//    @Value("${spring.redis.pool.min-idle}")
+//    protected int minIdle;
+//
+//    @Value("${spring.redis.pool.max-idle}")
+//    protected int maxIdle;
+//
+//    @Value("${spring.redis.pool.max-wait}")
+//    protected long maxWaitMillis;
 
-    @Value("${redis.minIdle}")
-    protected int minIdle;
+//    @Value("${spring.redis.testOnBorrow}")
+//    protected boolean testOnBorrow;
+//
+//    @Value("${spring.redis.testOnReturn}")
+//    protected boolean testOnReturn;
 
-    @Value("${redis.maxIdle}")
-    protected int maxIdle;
+//    pool:
+//    max-active: ${redis.maxActive}
+//    max-wait: ${redis.maxWait}
+//    max-idle: ${redis.maxIdle}
+//    min-idle: ${redis.minIdle}
+//    sentinel:
+//    master: ${redis.sentinel.master}
+//    nodes: ${redis.sentinel.nodes}
+//    database: 0
+//    password:
+//    timeout: ${redis.timeout}
 
-    @Value("${redis.maxWaitMillis}")
-    protected long maxWaitMillis;
-
-    @Value("${redis.testOnBorrow}")
-    protected boolean testOnBorrow;
-
-    @Value("${redis.testOnReturn}")
-    protected boolean testOnReturn;
-
-    @Value("${redis.password}")
+    @Value("${spring.redis.password}")
     protected String password;
 
-    @Value("${redis.timeout}")
+    @Value("${spring.redis.timeout}")
     protected int timeout;
 
+    @Bean(name = "cacheUtil02")
+    public RedisTemplateUtil redisTemplateUtil(@Qualifier("redisSessionTemplate02")StringRedisTemplate stringRedisTemplate, RetryTemplate retryTemplate) {
+        RedisTemplateUtil redisTemplateUtil = new RedisTemplateUtil();
+        redisTemplateUtil.setStringRedisTemplate(stringRedisTemplate);
+        redisTemplateUtil.setRetryTemplate(retryTemplate);
+        return  redisTemplateUtil;
+    }
+
+    @Bean(name = "redisSessionTemplate02")
+    public StringRedisTemplate stringRedisTemplate() {
+        return  buildRedisTemplate(buildConnectionFactory(1));
+    }
+
+    @Bean(name = "cacheUtil03")
+    public RedisTemplateUtil redisTemplateUtil03(@Qualifier("redisSessionTemplat03")StringRedisTemplate stringRedisTemplate,RetryTemplate retryTemplate) {
+        RedisTemplateUtil redisTemplateUtil = new RedisTemplateUtil();
+        redisTemplateUtil.setStringRedisTemplate(stringRedisTemplate);
+        redisTemplateUtil.setRetryTemplate(retryTemplate);
+        return  redisTemplateUtil;
+    }
+
+    @Bean(name = "redisSessionTemplat03")
+    public StringRedisTemplate stringRedisTemplate03() {
+        return  buildRedisTemplate(buildConnectionFactory(3));
+    }
+
+    @Bean(name = "redisSessionTemplat10")
+    public StringRedisTemplate stringRedisTemplate10() {
+        return  buildRedisTemplate(buildConnectionFactory(10));
+    }
+
+    @Bean(name = "cacheUtil01")
+    public RedisTemplateUtil redisTemplateUtil01(@Qualifier("redisSessionTemplate01")StringRedisTemplate stringRedisTemplate,RetryTemplate retryTemplate) {
+        RedisTemplateUtil redisTemplateUtil = new RedisTemplateUtil();
+        redisTemplateUtil.setStringRedisTemplate(stringRedisTemplate);
+        redisTemplateUtil.setRetryTemplate(retryTemplate);
+        return  redisTemplateUtil;
+    }
+
+    @Bean(name = "redisSessionTemplate01")
+    public StringRedisTemplate stringRedisTemplate01() {
+        return  buildRedisTemplate(buildConnectionFactory(0));
+    }
+
+    @Bean(name = "cacheUtil10")
+    public RedisTemplateUtil redisTemplateUtil10(@Qualifier("redisSessionTemplat10")StringRedisTemplate stringRedisTemplate, RetryTemplate retryTemplate) {
+        RedisTemplateUtil redisTemplateUtil = new RedisTemplateUtil();
+        redisTemplateUtil.setStringRedisTemplate(stringRedisTemplate);
+        redisTemplateUtil.setRetryTemplate(retryTemplate);
+        return  redisTemplateUtil;
+    }
+
+
     @Bean
-    public RedisSentinelConfiguration redisSentinelConfiguration() {
-        String[] nodes = sentinelNodes.split(",");
-        Set<String> setNodes = new HashSet<>();
-        for (String n : nodes) {
-            setNodes.add(n.trim());
-        }
-        RedisSentinelConfiguration configuration = new RedisSentinelConfiguration(sentinelGroupName, setNodes);
-        return configuration;
+    public RetryTemplate retryTemplate() {
+        RetryTemplate retryTemplate = new RetryTemplate();
+        TimeoutRetryPolicy timeoutRetryPolicy = new TimeoutRetryPolicy();
+        timeoutRetryPolicy.setTimeout(500000);
+        retryTemplate.setRetryPolicy(timeoutRetryPolicy);
+        return retryTemplate;
     }
 
     @Bean
     public JedisPoolConfig jedisPoolConfig() {
-        JedisPoolConfig poolConfig = new JedisPoolConfig();
-        poolConfig.setMaxTotal(maxTotal);
-        poolConfig.setMinIdle(minIdle);
-        poolConfig.setMaxIdle(maxIdle);
-        poolConfig.setMaxWaitMillis(maxWaitMillis);
-        poolConfig.setTestOnBorrow(testOnBorrow);
-        poolConfig.setTestOnReturn(testOnReturn);
-        return poolConfig;
+        JedisPoolConfig jedisPoolConfig = new JedisPoolConfig();
+        jedisPoolConfig.setMaxTotal(20);
+        jedisPoolConfig.setMaxIdle(5);
+        jedisPoolConfig.setMinIdle(1);
+        jedisPoolConfig.setMaxWaitMillis(50);
+        jedisPoolConfig.setTestOnBorrow(true);
+        jedisPoolConfig.setTestOnReturn(true);
+        return jedisPoolConfig;
     }
 
-    @Bean
-    public StringRedisSerializer stringRedisSerializer() {
-        return new StringRedisSerializer();
-    }
-
-    @Bean(name = "redisTemplate00")
-    @Primary
-    public StringRedisTemplate redisTemplate00() {
-        return buildRedisTemplate(buildConnectionFactory(0));
-    }
-
-    @Bean(name = "redisTemplate01")
-    public StringRedisTemplate redisTemplate01() {
-        return buildRedisTemplate(buildConnectionFactory(1));
-    }
-
-    @Bean(name = "redisTemplate02")
-    public StringRedisTemplate redisTemplate02() {
-        return buildRedisTemplate(buildConnectionFactory(2));
-    }
-
-    @Bean(name = "redisTemplate03")
-    public StringRedisTemplate redisTemplate03() {
-        return buildRedisTemplate(buildConnectionFactory(3));
-    }
-
-    @Bean(name = "redisTemplate04")
-    public StringRedisTemplate redisTemplate04() {
-        return buildRedisTemplate(buildConnectionFactory(4));
-    }
 
     private JedisConnectionFactory buildConnectionFactory(int database) {
         JedisConnectionFactory connectionFactory = new JedisConnectionFactory(redisSentinelConfiguration(), jedisPoolConfig());
@@ -121,6 +157,23 @@ public class RedisConfig {
         template.setValueSerializer(stringRedisSerializer());
         template.afterPropertiesSet();
         return template;
+    }
+
+    @Bean
+    public StringRedisSerializer stringRedisSerializer()
+    {
+        return new StringRedisSerializer();
+    }
+
+    @Bean
+    public RedisSentinelConfiguration redisSentinelConfiguration() {
+        String[] nodes = sentinelNodes.split(",");
+        Set<String> setNodes = new HashSet<>();
+        for (String n : nodes) {
+            setNodes.add(n.trim());
+        }
+        RedisSentinelConfiguration configuration = new RedisSentinelConfiguration(sentinelGroupName, setNodes);
+        return configuration;
     }
 
 }

@@ -12,7 +12,6 @@
     <modules>
         <module>framework-service</module>
         <module>consule-service</module>
-        <module>test-service</module>
     </modules>
 
     <properties>

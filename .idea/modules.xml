@@ -5,7 +5,6 @@
       <module fileurl="file://$PROJECT_DIR$/cloudDemo.iml" filepath="$PROJECT_DIR$/cloudDemo.iml" />
       <module fileurl="file://$PROJECT_DIR$/consule-service/consule-service.iml" filepath="$PROJECT_DIR$/consule-service/consule-service.iml" />
       <module fileurl="file://$PROJECT_DIR$/framework-service/framework-service.iml" filepath="$PROJECT_DIR$/framework-service/framework-service.iml" />
-      <module fileurl="file://$PROJECT_DIR$/test-service/test-service.iml" filepath="$PROJECT_DIR$/test-service/test-service.iml" />
     </modules>
   </component>
 </project>

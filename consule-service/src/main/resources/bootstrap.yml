@@ -1,12 +1,13 @@
 spring:
   cloud:
     consul:
+#      host: 47.98.123.156
       host: localhost
       port: 8500
       config:
         enabled: true
         format: yaml
-        data-key: data
+        data-key: zbwData
 #      discovery:
 #        instance-id: ${spring.application.name}:${spring.cloud.client.ipAddress}
 

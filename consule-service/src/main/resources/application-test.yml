@@ -1,0 +1,11 @@
+spring:
+  application:
+    name: consul-service
+
+  profiles:
+    active: test
+
+server:
+  port: 9988
+
+

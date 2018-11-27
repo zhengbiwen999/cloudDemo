@@ -1,0 +1,21 @@
+spring:
+  cloud:
+    consul:
+      host: localhost
+      port: 8500
+      config:
+        enabled: true
+        format: yaml
+        data-key: data
+#      discovery:
+#        instance-id: ${spring.application.name}:${spring.cloud.client.ipAddress}
+
+
+#spring:
+#  cloud:
+#    consul:
+#      config: test/config   #consul的key名，或文件的名字  (必须是在consul的 config/项目名下/)新建文件
+#      host: localhost
+#      port: 8500
+#      discovery:
+#        instance-id: ${spring.application.name}:${spring.cloud.client.ipAddress}

@@ -1,6 +1,16 @@
 spring:
   application:
     name: consul-service
+  redis:
+    database: ${redis.database}
+    host: ${redis.host}
+    password: ${redis.password}
+    port: ${redis.port}
+    pool:
+      max-active: ${redis.pool.max-active}
+      min-idle: ${redis.pool.min-idle}
+      max-wait:  ${redis.pool.max-wait}
+      max-idle: ${redis.pool.max-idle}
 
   profiles:
     active: dev

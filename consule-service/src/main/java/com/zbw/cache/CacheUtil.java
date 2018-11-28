@@ -1,8 +1,9 @@
-package com.zbw.utils;
+package com.zbw.cache;
 
 import java.util.List;
 import java.util.Map;
 import java.util.Set;
+import java.util.concurrent.TimeUnit;
 
 public interface CacheUtil {
 
@@ -10,7 +11,21 @@ public interface CacheUtil {
 
     String lockPrefix = "lock:";
 
+    boolean exists(String key);
+
+    Long ttl(String key);
+
+    Long zcard(String key);
+
+    Set<String> zrange(String key, long start, long end);
+
+    Long zunion(String dstkey, List<String> sets);
+
     Map<String, String> hGetAll(String key);
+
+    void expire(String key, int seconds);
+
+    void zadd(String key, double score, String member);
 
     Set<Object> hKeys(String key);
 
@@ -18,16 +33,26 @@ public interface CacheUtil {
 
     boolean lock(final String key, final String value, final long expiredSeconds);
 
-    void unlock(final String key);
+//    @Deprecated
+//    void unlock(final String key);
+
+    void unlock(final String key, final String value);
 
     Set<String> keys(String pattern);
 
     void set(String key, String value);
 
+    void set(String key, Object value);
+
     String get(String key);
 
     //overtime 过期时间,单位为秒.
     void set(String key, String value, long expiredSeconds);
+
+    /**
+     * @param expiredSeconds 过期时间,单位为秒.
+     */
+    void set(String key, Object value, long expiredSeconds);
 
     void delete(String key);
 
@@ -65,11 +90,25 @@ public interface CacheUtil {
 
     void lPush(String key, String value);
 
+    /**
+     * 返回list的size
+     *
+     * @param key
+     * @return
+     */
+    Long lSize(String key);
+
     String lPop(String key);
+
+    String lPop(String key, long timeout, TimeUnit unit);
 
     void rPush(String key, String value);
 
+    void rPushAll(String key, List<String> list);
+
     String rPop(String key);
+
+    String rPop(String key, long timeout, TimeUnit unit);
 
     void sRem(String key, String... member);
 
@@ -81,8 +120,5 @@ public interface CacheUtil {
 
     void hAddAll(String key, Map<String, String> map, long overtime);
 
-    Long ttl(String key);
-
-    void expire(String key, int seconds);
 
 }

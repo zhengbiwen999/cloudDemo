@@ -13,6 +13,7 @@ public class RedisController {
 
     @RequestMapping("/getRedis")
     public String getRedis(){
+        cacheUtil.set("aaaa","zbw");
         String aaaa = cacheUtil.get("aaaa");
         return aaaa;
     }

@@ -7,8 +7,8 @@ import org.springframework.context.annotation.ComponentScan;
 
 @EnableDiscoveryClient
 @SpringBootApplication
-@ComponentScan({"com.zbw.controller"})
-@EnableConfigurationProperties({TestConfig.class})
+@ComponentScan({"com.zbw"})
+@EnableConfigurationProperties
 public class ConsulApplication {
 
     public static void main(String[] args) {

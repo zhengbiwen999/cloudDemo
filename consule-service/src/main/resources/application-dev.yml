@@ -12,6 +12,28 @@ spring:
       max-wait:  ${redis.pool.max-wait}
       max-idle: ${redis.pool.max-idle}
 
+druid:
+  type: com.alibaba.druid.pool.DruidDataSource
+  dbname:
+    master:
+      url: ${postgres.master}
+      driver-class-name: org.postgresql.Driver
+      username: ${postgres.username}
+      password: ${postgres.password}
+      initial-size: ${postgres.initSize}
+      min-idle: ${postgres.minIdle}
+      max-active: ${postgres.maxActive}
+      test-on-borrow: ${postgres.testOnBorrow}
+    slave:
+      url: ${postgres.slave}
+      driver-class-name: org.postgresql.Driver
+      username: ${postgres.username}
+      password: ${postgres.password}
+      initial-size: ${postgres.initSize}
+      min-idle: ${postgres.minIdle}
+      max-active: ${postgres.maxActive}
+      test-on-borrow: ${postgres.testOnBorrow}
+
   profiles:
     active: dev
 

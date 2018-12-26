@@ -1,13 +1,13 @@
-import com.zbw.config.TestConfig;
+package com.zbw;
+
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
 import org.springframework.boot.context.properties.EnableConfigurationProperties;
 import org.springframework.cloud.client.discovery.EnableDiscoveryClient;
-import org.springframework.context.annotation.ComponentScan;
 
 @EnableDiscoveryClient
 @SpringBootApplication
-@ComponentScan({"com.zbw"})
+//@ComponentScan({"com.zbw"})
 @EnableConfigurationProperties
 public class ConsulApplication {
 

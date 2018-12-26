@@ -26,8 +26,18 @@ import java.util.stream.Collectors;
 public class RedisTemplateUtil implements CacheUtil {
 
     private final Logger logger = LoggerFactory.getLogger(RedisTemplateUtil.class);
+
     private StringRedisTemplate stringRedisTemplate;
+
     private RetryTemplate retryTemplate;
+
+    public void setStringRedisTemplate(StringRedisTemplate stringRedisTemplate) {
+        this.stringRedisTemplate = stringRedisTemplate;
+    }
+
+    public void setRetryTemplate(RetryTemplate retryTemplate) {
+        this.retryTemplate = retryTemplate;
+    }
 
     /**
      * 此方法,当存在大量数据时,慎用

@@ -8,11 +8,11 @@ public class AccumulatorRecursiveTask extends RecursiveTask<Integer> {
 
     private final int end;
 
-    private final int[] data;
+    private final long[] data;
 
     private final int LIMIT = 3;
 
-    public AccumulatorRecursiveTask(int start, int end, int[] data) {
+    public AccumulatorRecursiveTask(int start, int end, long[] data) {
         this.start = start;
         this.end = end;
         this.data = data;

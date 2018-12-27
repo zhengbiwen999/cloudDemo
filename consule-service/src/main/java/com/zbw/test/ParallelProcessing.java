@@ -12,6 +12,9 @@ public class ParallelProcessing {
         //System.out.println("The best process time(parallelStream)=>" + measureSumPerformance(ParallelProcessing::parallelStream, 10_000_000) + " MS");
 //        System.out.println("The best process time(parallelStream2)=>" + measureSumPerformance(ParallelProcessing::parallelStream2, 10_000_000) + " MS");
         System.out.println("The best process time(parallelStream3)=>" + measureSumPerformance(ParallelProcessing::parallelStream3, 100_000_000) + " MS");
+
+
+
     }
 
     private static long measureSumPerformance(Function<Long, Long> adder, long limit) {
@@ -54,4 +57,6 @@ public class ParallelProcessing {
         }
         return result;
     }
+
+
 }

@@ -4,6 +4,7 @@ import java.util.Optional;
 import java.util.Random;
 import java.util.concurrent.CompletableFuture;
 import java.util.concurrent.ExecutionException;
+import java.util.concurrent.Executor;
 
 /***************************************
  * @author:Alex Wang
@@ -31,7 +32,6 @@ public class CompletableFutureInAction1 {
             Optional.ofNullable(t).ifPresent(x -> x.printStackTrace());
         });
     }
-
     static double get() {
         try {
             Thread.sleep(RANDOM.nextInt(10000));

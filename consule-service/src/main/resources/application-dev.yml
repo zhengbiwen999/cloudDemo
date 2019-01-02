@@ -12,6 +12,11 @@ spring:
       max-wait:  ${redis.pool.max-wait}
       max-idle: ${redis.pool.max-idle}
 
+  rabbitmq:
+    addresses: 47.98.123.156
+    username: guest
+    password: guest
+
 #druid:
 #  type: com.alibaba.druid.pool.DruidDataSource
 #  dbname:

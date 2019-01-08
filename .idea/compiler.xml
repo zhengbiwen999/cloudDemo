@@ -6,15 +6,9 @@
         <sourceOutputDir name="target/generated-sources/annotations" />
         <sourceTestOutputDir name="target/generated-test-sources/test-annotations" />
         <outputRelativeToContentRoot value="true" />
-        <module name="consule-service" />
+        <module name="consul-service" />
         <module name="framework-service" />
       </profile>
     </annotationProcessing>
-    <bytecodeTargetLevel>
-      <module name="cloudDemo" target="8" />
-      <module name="consule-service" target="8" />
-      <module name="framework-service" target="8" />
-      <module name="test-service" target="8" />
-    </bytecodeTargetLevel>
   </component>
 </project>

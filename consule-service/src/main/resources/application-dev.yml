@@ -12,42 +12,34 @@ spring:
       max-wait:  ${redis.pool.max-wait}
       max-idle: ${redis.pool.max-idle}
 
-#druid:
-#  type: com.alibaba.druid.pool.DruidDataSource
-#  dbname:
-#    master:
-#      url: ${postgres.master}
-#      driver-class-name: org.postgresql.Driver
-#      username: ${postgres.username}
-#      password: ${postgres.password}
-#      initial-size: ${postgres.initSize}
-#      min-idle: ${postgres.minIdle}
-#      max-active: ${postgres.maxActive}
-#      test-on-borrow: ${postgres.testOnBorrow}
-#    slave:
-#      url: ${postgres.slave}
-#      driver-class-name: org.postgresql.Driver
-#      username: ${postgres.username}
-#      password: ${postgres.password}
-#      initial-size: ${postgres.initSize}
-#      min-idle: ${postgres.minIdle}
-#      max-active: ${postgres.maxActive}
-#      test-on-borrow: ${postgres.testOnBorrow}
+  datasource:
+    druid:
+#      driver-class-name: com.mysql.jdbc.Driver
+      url: jdbc:mysql://47.98.123.156:3306/test?useUnicode=true&characterEncoding=UTF-8&autoReconnect=true&failOverReadOnly=false
+      username: root
+      password: Zbw123456|
+#      filters: stat,wall,log4j,config
+      max-active: 100
+      initial-size: 1
+      max-wait: 60000
+      min-idle: 1
+      time-between-eviction-runs-millis: 60000
+      min-evictable-idle-time-millis: 300000
+      validation-query: select 'x'
+      test-while-idle: true
+      test-on-borrow: false
+      test-on-return: false
+      pool-prepared-statements: true
+      max-open-prepared-statements: 50
+
 
   profiles:
     active: dev
-
-#  redis:
-#    database: ${redis.database}
-#    host: ${redis.host}
-#    password: ${redis.password}
-#    port: ${redis.port}
-#    jedis:
-#      pool:
-#        max-active: ${redis.pool.max-active}
-#        min-idle: ${redis.pool.min-idle}
-#        max-wait:  ${redis.pool.max-wait}
-#        max-idle: ${redis.pool.max-idle}
+  cloud:
+    consul:
+      config:
+        watch:
+          enabled: true
 
 server:
   port: 9988

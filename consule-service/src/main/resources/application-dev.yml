@@ -44,6 +44,24 @@ spring:
 server:
   port: 9988
 
+mybatis:
+  type-aliases-package: com.zbw.model
+  mapper-locations:
+    - classpath:mybatis/*.xml
+#  config-location: classpath:mybatis-config.xml
+
+mapper:
+  mappers:
+      - com.zbw.utils.MWMapper
+  not-empty: false
+  identity: MYSQL
+
+#pagehelper:
+#  helperDialect: mysql
+#  reasonable: true
+#  supportMethodsArguments: true
+#  params: count=countSql
+
 
 
 

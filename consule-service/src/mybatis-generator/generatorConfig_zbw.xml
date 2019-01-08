@@ -1,0 +1,51 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE generatorConfiguration
+        PUBLIC "-//mybatis.org//DTD MyBatis Generator Configuration 1.0//EN"
+        "http://mybatis.org/dtd/mybatis-generator-config_1_0.dtd">
+<generatorConfiguration>
+
+    <context id="Mysql" targetRuntime="MyBatis3" defaultModelType="flat">
+
+        <property name="javaFileEncoding" value="UTF-8"/>
+        <property name="beginningDelimiter" value="`"/>
+        <property name="endingDelimiter" value="`"/>
+
+        <plugin type="tk.mybatis.mapper.generator.MapperPlugin">
+            <property name="mappers" value="com.zbw.utils.MWMapper"/>
+            <property name="caseSensitive" value="true"/>
+        </plugin>
+
+        <jdbcConnection driverClass="com.mysql.jdbc.Driver"
+                        connectionURL="jdbc:mysql://47.98.123.156:3306/test?useUnicode=true&amp;characterEncoding=utf8&amp;zeroDateTimeBehavior=convertToNull&amp;tinyInt1isBit=false&amp;allowMultiQueries=true&amp;useLocalSessionState=true&amp;autoReconnect=true&amp;failOverReadOnly=false"
+                        userId="root"
+                        password="Zbw123456|">
+        </jdbcConnection>
+
+
+        <javaModelGenerator targetPackage="com.zbw.model"
+                            targetProject="../test/java/"/>
+
+        <sqlMapGenerator targetPackage="mybatis"
+                         targetProject="../test/resources/"/>
+
+        <javaClientGenerator targetPackage="com.zbw.mapper"
+                             targetProject="../test/java/"
+                             type="XMLMAPPER"/>
+
+
+
+        <table tableName="tbarea" domainObjectName="AreaEntity"
+               enableCountByExample="false"
+               enableUpdateByExample="false"
+               enableDeleteByExample="false"
+               enableSelectByExample="false"
+               selectByExampleQueryId="false">
+            <property name="useActualColumnNames" value="false"/>
+            <!--<generatedKey column="f_id" sqlStatement="MYSQL" identity="true"/>-->
+            <columnRenamingRule searchString="^[f|F]_" replaceString=""/>
+        </table>
+
+
+
+    </context>
+</generatorConfiguration>

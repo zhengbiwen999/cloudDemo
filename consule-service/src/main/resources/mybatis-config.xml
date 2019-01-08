@@ -1,0 +1,53 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE configuration PUBLIC "-//mybatis.org//DTD Config 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-config.dtd">
+<configuration>
+    <settings>
+        <setting name="logImpl" value="LOG4J2"/>
+        <setting name="cacheEnabled" value="true"/>
+        <setting name="defaultStatementTimeout" value="50"/>
+    </settings>
+
+    <!--<typeAliases>-->
+    <!--<package name="cn.mwee.winpos.entity.wpos"/>-->
+    <!--</typeAliases>-->
+
+    <plugins>
+
+        <!--<plugin interceptor="com.github.pagehelper.PageInterceptor">-->
+        <!--&lt;!&ndash;下面的参数详解见http://git.oschina.net/free/Mybatis_PageHelper/blob/master/wikis/HowToUse.markdown&ndash;&gt;-->
+        <!--<property name="helperDialect" value="mysql"/>-->
+        <!--<property name="reasonable" value="true"/>-->
+        <!--<property name="offsetAsPageNum" value="true"/>-->
+        <!--<property name="rowBoundsWithCount" value="true"/>-->
+        <!--<property name="pageSizeZero" value="true"/>-->
+        <!--</plugin>-->
+
+        <plugin interceptor="cn.mwee.order.cloud.admin.common.interceptor.MybatisInterceptor">
+
+        </plugin>
+
+        <!--<plugin interceptor="cn.mwee.winpos.cloud.admin.common.interceptor.DbInterceptor">-->
+        <!--&lt;!&ndash;下面的参数详解见http://git.oschina.net/free/Mybatis_PageHelper/blob/master/wikis/HowToUse.markdown&ndash;&gt;-->
+        <!--<property name="tables" value="tbuser,tbshop"/>-->
+        <!--<property name="dialect" value="mysql" />-->
+        <!--</plugin>-->
+
+
+        <!--<plugin interceptor="com.github.pagehelper.PageHelper">
+            &lt;!&ndash;下面的参数详解见http://git.oschina.net/free/Mybatis_PageHelper/blob/master/wikis/HowToUse.markdown&ndash;&gt;
+            <property name="dialect" value="mysql"/>
+            <property name="reasonable" value="true"/>
+            <property name="offsetAsPageNum" value="true"/>
+            <property name="rowBoundsWithCount" value="true"/>
+            <property name="pageSizeZero" value="true"/>
+        </plugin>
+
+        <plugin interceptor="tk.mybatis.mapper.mapperhelper.MapperInterceptor">
+            <property name="mappers" value="tk.mybatis.mapper.common.Mapper"/>
+            <property name="IDENTITY" value="MYSQL"/>
+            <property name="notEmpty" value="true"/>
+        </plugin>-->
+    </plugins>
+
+</configuration>

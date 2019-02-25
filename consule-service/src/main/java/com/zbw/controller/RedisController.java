@@ -2,6 +2,7 @@ package com.zbw.controller;
 
 import com.zbw.cache.CacheUtil;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.cloud.context.config.annotation.RefreshScope;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
@@ -10,6 +11,7 @@ import java.util.Random;
 import java.util.Set;
 
 @RestController
+@RefreshScope
 public class RedisController {
 
     @Autowired
@@ -23,7 +25,6 @@ public class RedisController {
         String aaaa = cacheUtil.get("aaaa");
         return aaaa;
     }
-
 
     @RequestMapping("/lpush")
     public List<String> lpush(){

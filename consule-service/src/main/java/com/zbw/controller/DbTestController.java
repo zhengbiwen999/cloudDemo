@@ -22,6 +22,9 @@ public class DbTestController {
     public String getData(HttpServletRequest request,
                           @RequestParam(value = "xxx", required = false) String xxx) {
         String usernam = request.getParameter("xxx");
+
+        Object content = request.getServletContext().getAttribute("content");
+        System.out.println("content:"+content.toString());
         System.out.println("xxx:" + xxx);
         System.out.println("username:" + usernam);
         List<AreaEntity> areaEntities = areaEntityMapper.selectAll();
